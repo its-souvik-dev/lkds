@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Candidate;
 use App\Models\Section;
 use Illuminate\Http\Request;
+use App\Exports\CandidateExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CandidateController extends Controller
 {
@@ -15,7 +17,7 @@ class CandidateController extends Controller
     {
         $candidates = Candidate::paginate(10);
 
-        return view('candidate.index',[
+        return view('candidate.index', [
             'candidates' => $candidates
         ]);
     }
@@ -27,7 +29,6 @@ class CandidateController extends Controller
     {
         $sections = Section::all();
         return view('candidate.create', compact('sections'));
-
     }
 
     /**
@@ -40,7 +41,7 @@ class CandidateController extends Controller
             'name' => 'required|string',
             'section' => 'required|string',
             'remarks' => 'required|integer|min:1|max:10'
-        ]); 
+        ]);
 
         try {
             Candidate::create($request->all());
@@ -65,7 +66,7 @@ class CandidateController extends Controller
     public function edit(Candidate $candidate)
     {
         $sections = Section::all();
-        return view('candidate.edit' , compact('candidate' , 'sections'));
+        return view('candidate.edit', compact('candidate', 'sections'));
     }
 
     /**
@@ -78,7 +79,7 @@ class CandidateController extends Controller
             'name' => 'required|string',
             'section' => 'required|string',
             'remarks' => 'required|integer|min:1|max:10'
-        ]); 
+        ]);
 
         try {
             $candidate->update($request->all());
@@ -96,6 +97,11 @@ class CandidateController extends Controller
     {
         $candidate->delete();
 
-        return redirect('/candidate')->with('status','Deleted Successfully');
+        return redirect('/candidate')->with('status', 'Deleted Successfully');
+    }
+
+    public function export()
+    {
+        return Excel::download(new CandidateExport, 'candidates.xlsx');
     }
 }
