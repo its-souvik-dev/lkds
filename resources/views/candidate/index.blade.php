@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
 <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
@@ -16,6 +16,16 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             <span>Add Candidate</span>
         </a>
+
+        <a href="{{ route('candidate.export') }}" 
+            class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-black font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" 
+                    xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" 
+                    stroke-linejoin="round" stroke-width="2" 
+                    d="M12 4v16m8-8H4"></path></svg>
+            <span>Export to Excel</span>
+            </a>
+
     </div>
 
     <!-- Candidates Table -->
